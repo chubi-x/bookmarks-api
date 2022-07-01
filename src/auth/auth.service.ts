@@ -1,6 +1,6 @@
-import { Injectable, Req } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaDbService } from "src/prisma_db/prisma_db.service";
-import { Request } from "express";
+import { AuthDto } from "./dto";
 
 @Injectable()
 export class AuthService{
@@ -11,7 +11,7 @@ export class AuthService{
         
         return {msg: 'sign me in scotty'};
     }
-    signup(){
+    signup(dto: AuthDto){
         // console.log(req.body)
         return {msg: 'sign me up scotty'};
     }
