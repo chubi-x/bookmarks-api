@@ -11,8 +11,17 @@ export class AuthService{
         
         return {msg: 'sign me in scotty'};
     }
-    signup(dto: AuthDto){
-        // console.log(req.body)
-        return {msg: 'sign me up scotty'};
+    async signup(dto: AuthDto){
+        //generate password hash
+        const hash = await argon.hash(dto.password);
+        //save new user in db
+        const user = await this.prisma.user.create({
+            data: {
+                email: dto.email,
+                hash
+            }
+        })
+        //return saved user
+        return user;
     }
 }
