@@ -6,7 +6,9 @@ import { PrismaDbModule } from './prisma_db/prisma_db.module';
 import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
-    ConfigModule.forRoot({}),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     UserModule, 
     BookmarkModule,
     AuthModule, 
