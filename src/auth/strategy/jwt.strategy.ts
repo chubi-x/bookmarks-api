@@ -5,16 +5,16 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PrismaDbService } from 'src/prisma_db/prisma_db.service';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
-  // extract jwt token from header and jwt secret from environment using config service
+  // extract jwt token from auth header and jwt secret from environment using config service
   constructor(config: ConfigService, private prisma: PrismaDbService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: config.get('JWT_SECRET'),
     });
   }
-  // method to validate a users with their token
+  // method to validate users with their token
   async validate(payload: { sub: number; email: string }) {
-    // find user using their id
+    // find user with their id
     const user = await this.prisma.user.findUnique({
       where: {
         id: payload.sub,

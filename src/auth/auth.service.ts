@@ -68,15 +68,19 @@ export class AuthService {
     userId: number,
     email: string,
   ): Promise<{ access_token: string }> {
+    // payload object that holds user information
     const payload = {
       sub: userId,
       email,
     };
+    // jwt secret phrase
     const secret = this.config.get('JWT_SECRET');
+    //create and sign jwt token
     const token = await this.jwt.signAsync(payload, {
       expiresIn: '15m',
       secret,
     });
+    // return access token object
     return {
       access_token: token,
     };
