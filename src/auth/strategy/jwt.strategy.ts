@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PrismaDbService } from 'src/prisma_db/prisma_db.service';
+import { PrismaDbService } from '../../prisma_db/prisma_db.service';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   // extract jwt token from auth header and jwt secret from environment using config service
