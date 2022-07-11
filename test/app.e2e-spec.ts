@@ -119,5 +119,14 @@ describe('App e2e', () => {
         return pactum.spec().post('/auth/signin').expectStatus(400);
       });
     });
+    describe('User', () => {
+      it('Should get current user', () => {
+        return pactum
+          .spec()
+          .get('/users/me')
+          .withHeaders('Authorization', 'Bearer $S{userToken}')
+          .expectStatus(200);
+      });
+    });
   });
 });
