@@ -101,7 +101,8 @@ describe('App e2e', () => {
           .spec()
           .post('/auth/signin')
           .withBody(dto)
-          .expectStatus(200);
+          .expectStatus(200)
+          .stores('userToken', 'access_token');
       });
       // if email empty
       reqBodyTest('signin', 'email', false);
