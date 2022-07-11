@@ -59,6 +59,28 @@ describe('App e2e', () => {
           })
           .expectStatus(400);
       });
+      it('should throw if first name empty', () => {
+        return pactum
+          .spec()
+          .post('/auth/signup')
+          .withBody({
+            email: dto.email,
+            password: dto.password,
+            lastName: dto.lastName,
+          })
+          .expectStatus(400);
+      });
+      it('should throw if last name empty', () => {
+        return pactum
+          .spec()
+          .post('/auth/signup')
+          .withBody({
+            email: dto.email,
+            password: dto.password,
+            firstName: dto.firstName,
+          })
+          .expectStatus(400);
+      });
       it('should sign up', () => {
         // create dto object to test sign up
         return pactum
