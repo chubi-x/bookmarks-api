@@ -1,9 +1,11 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as pactum from 'pactum';
+import * as argon from 'argon2';
 import { PrismaDbService } from '../src/prisma_db/prisma_db.service';
 import { AppModule } from '../src/app.module';
-import { AuthDto } from 'src/auth/dto';
+import { SignupDto, LoginDto } from '../src/auth/dto';
+import { EditUserDto, EditUserPasswordDto } from '../src/user/dto';
 describe('App e2e', () => {
   // create app variable
   let app: INestApplication;
@@ -30,7 +32,7 @@ describe('App e2e', () => {
   });
   // authentication tests
   describe('Auth', () => {
-    const dto: AuthDto = {
+    const dto: SignupDto = {
       email: 'chubi1234@gmail.com',
       password: '12345',
       firstName: 'chubiyojo',
@@ -96,11 +98,15 @@ describe('App e2e', () => {
     });
     describe('Sign In', () => {
       it('should sign in', () => {
+        const loginDto: LoginDto = {
+          email: 'chubi1234@gmail.com',
+          password: '12345',
+        };
         // create dto object to test sign up
         return pactum
           .spec()
           .post('/auth/signin')
-          .withBody(dto)
+          .withBody(loginDto)
           .expectStatus(200)
           .stores('userToken', 'access_token');
       });
@@ -108,12 +114,6 @@ describe('App e2e', () => {
       reqBodyTest('signin', 'email', false);
       // if password empty
       reqBodyTest('signin', 'password', false);
-
-      // if first name empty
-      reqBodyTest('signin', 'firstName', false);
-
-      // if last name empty
-      reqBodyTest('signin', 'lastName', true);
 
       it('should throw if no body provided', () => {
         return pactum.spec().post('/auth/signin').expectStatus(400);
@@ -125,6 +125,43 @@ describe('App e2e', () => {
           .spec()
           .get('/users/me')
           .withHeaders('Authorization', 'Bearer $S{userToken}')
+          .expectStatus(200);
+      });
+      it('Should edit user', () => {
+        const editUserDto: EditUserDto = {
+          email: 'chubiX@gmail.com',
+        };
+        return pactum
+          .spec()
+          .patch('/users/me/edit')
+          .withHeaders('Authorization', 'Bearer $S{userToken}')
+          .withBody(editUserDto)
+          .expectStatus(200)
+          .expectBodyContains(editUserDto.email);
+      });
+      it('Should edit user password', async () => {
+        const editPasswordDto: EditUserPasswordDto = {
+          password: '1234',
+        };
+        return pactum
+          .spec()
+          .patch('/users/me/change_password')
+          .withHeaders('Authorization', 'Bearer $S{userToken}')
+          .withBody(editPasswordDto)
+          .expectStatus(200)
+          .inspect();
+      });
+      it('Should sign in after password change', () => {
+        const newSignInDto: EditUserPasswordDto = {
+          password: '1234',
+        };
+        return pactum
+          .spec()
+          .post('/auth/signin')
+          .withBody({
+            email: 'chubiX@gmail.com',
+            password: newSignInDto.password,
+          })
           .expectStatus(200);
       });
     });
