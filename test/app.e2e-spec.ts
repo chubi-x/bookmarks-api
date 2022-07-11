@@ -1,7 +1,6 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as pactum from 'pactum';
-import * as argon from 'argon2';
 import { PrismaDbService } from '../src/prisma_db/prisma_db.service';
 import { AppModule } from '../src/app.module';
 import { SignupDto, LoginDto } from '../src/auth/dto';
