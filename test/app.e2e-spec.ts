@@ -164,5 +164,14 @@ describe('App e2e', () => {
           .expectStatus(200);
       });
     });
+    describe('Bookmarks', () => {
+      it('Get Bookmarks', () => {});
+
+      it('Get Bookmark by Id', () => {});
+
+      it('Create Bookmark', () => {});
+      it('Edit Bookmark by Id', () => {});
+      it('Delete Bookmark by Id', () => {});
+    });
   });
 });
