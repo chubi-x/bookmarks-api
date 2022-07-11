@@ -30,15 +30,15 @@ describe('App e2e', () => {
   });
   // authentication tests
   describe('Auth', () => {
+    const dto: AuthDto = {
+      email: 'chubi1234@gmail.com',
+      password: '12345',
+      firstName: 'chubiyojo',
+      lastName: 'adejoh',
+    };
     describe('Sign Up', () => {
       it('should sign up', () => {
         // create dto object to test sign up
-        const dto: AuthDto = {
-          email: 'chubi1234@gmail.com',
-          password: '12345',
-          firstName: 'chubiyojo',
-          lastName: 'adejoh',
-        };
         return pactum
           .spec()
           .post('/auth/signup')
