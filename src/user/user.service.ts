@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaDbService } from 'src/prisma_db/prisma_db.service';
-import { EditUserDto } from './dto';
+import * as argon from 'argon2';
+import { PrismaDbService } from '../prisma_db/prisma_db.service';
+import { EditUserDto, EditUserPasswordDto } from './dto';
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaDbService) {}
@@ -12,6 +13,20 @@ export class UserService {
       },
       data: {
         ...dto,
+      },
+    });
+    delete user.hash;
+    return user;
+  }
+  async editPassword(userId: number, dto: EditUserPasswordDto) {
+    console.log(`new password: ${dto.password}`);
+    const newPassword = await argon.hash(dto.password);
+    const user = await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        hash: newPassword,
       },
     });
     delete user.hash;
