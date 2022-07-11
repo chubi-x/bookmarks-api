@@ -41,14 +41,22 @@ describe('App e2e', () => {
         return pactum
           .spec()
           .post('/auth/signup')
-          .withBody({ email: dto.email })
+          .withBody({
+            firstName: dto.firstName,
+            lastName: dto.lastName,
+            password: dto.password,
+          })
           .expectStatus(400);
       });
       it('should throw if password empty', () => {
         return pactum
           .spec()
           .post('/auth/signup')
-          .withBody({ password: dto.password })
+          .withBody({
+            email: dto.email,
+            firstName: dto.firstName,
+            lastName: dto.lastName,
+          })
           .expectStatus(400);
       });
       it('should sign up', () => {
