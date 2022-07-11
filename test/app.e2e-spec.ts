@@ -47,5 +47,15 @@ describe('App e2e', () => {
           .inspect();
       });
     });
+    describe('Sign In', () => {
+      it('should sign in', () => {
+        // create dto object to test sign up
+        return pactum
+          .spec()
+          .post('/auth/signin')
+          .withBody(dto)
+          .expectStatus(200);
+      });
+    });
   });
 });
