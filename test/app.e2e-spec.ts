@@ -36,51 +36,52 @@ describe('App e2e', () => {
       firstName: 'chubiyojo',
       lastName: 'adejoh',
     };
+    // function to test if body parameters are empty
+    const reqBodyTest = (
+      endpoint: string,
+      bodyParam: string,
+      inspect: boolean,
+    ) => {
+      // should throw error if parameter is empty
+      it(`should throw if ${bodyParam} empty`, () => {
+        //create object to go into wtihBody method
+        const bodyObject = {
+          firstName: dto.firstName,
+          lastName: dto.lastName,
+          password: dto.password,
+          email: dto.email,
+        };
+        // retreive body object keys
+        const keys = Object.keys(bodyObject);
+        // check if key is equal to specified body parameter and remove key from body object
+        keys.forEach((key) => {
+          if (bodyParam === key) {
+            delete bodyObject[key];
+          }
+        });
+        // constant to hold pactum spec
+        const test = pactum
+          .spec()
+          .post(`/auth/${endpoint}`)
+          .withBody(bodyObject)
+          .expectStatus(400);
+        // return inspect if specified in func argument
+        if (inspect) return test.inspect();
+        else return test;
+      });
+    };
     describe('Sign Up', () => {
-      it('should throw if email empty', () => {
-        return pactum
-          .spec()
-          .post('/auth/signup')
-          .withBody({
-            firstName: dto.firstName,
-            lastName: dto.lastName,
-            password: dto.password,
-          })
-          .expectStatus(400);
-      });
-      it('should throw if password empty', () => {
-        return pactum
-          .spec()
-          .post('/auth/signup')
-          .withBody({
-            email: dto.email,
-            firstName: dto.firstName,
-            lastName: dto.lastName,
-          })
-          .expectStatus(400);
-      });
-      it('should throw if first name empty', () => {
-        return pactum
-          .spec()
-          .post('/auth/signup')
-          .withBody({
-            email: dto.email,
-            password: dto.password,
-            lastName: dto.lastName,
-          })
-          .expectStatus(400);
-      });
-      it('should throw if last name empty', () => {
-        return pactum
-          .spec()
-          .post('/auth/signup')
-          .withBody({
-            email: dto.email,
-            password: dto.password,
-            firstName: dto.firstName,
-          })
-          .expectStatus(400);
-      });
+      // if email empty
+      reqBodyTest('signup', 'email', false);
+      // if password empty
+      reqBodyTest('signup', 'password', false);
+
+      // if first name empty
+      reqBodyTest('signup', 'firstName', false);
+
+      // if last name empty
+      reqBodyTest('signup', 'lastName', false);
+
       it('should throw if no body provided', () => {
         return pactum.spec().post('/auth/signup').expectStatus(400);
       });
@@ -102,51 +103,17 @@ describe('App e2e', () => {
           .withBody(dto)
           .expectStatus(200);
       });
-      it('should throw if email empty', () => {
-        return pactum
-          .spec()
-          .post('/auth/signin')
-          .withBody({
-            firstName: dto.firstName,
-            lastName: dto.lastName,
-            password: dto.password,
-          })
-          .expectStatus(400);
-      });
-      it('should throw if password empty', () => {
-        return pactum
-          .spec()
-          .post('/auth/signin')
-          .withBody({
-            email: dto.email,
-            firstName: dto.firstName,
-            lastName: dto.lastName,
-          })
-          .expectStatus(400)
-          .inspect();
-      });
-      it('should throw if first name empty', () => {
-        return pactum
-          .spec()
-          .post('/auth/signin')
-          .withBody({
-            email: dto.email,
-            password: dto.password,
-            lastName: dto.lastName,
-          })
-          .expectStatus(400);
-      });
-      it('should throw if last name empty', () => {
-        return pactum
-          .spec()
-          .post('/auth/signin')
-          .withBody({
-            email: dto.email,
-            password: dto.password,
-            firstName: dto.firstName,
-          })
-          .expectStatus(400);
-      });
+      // if email empty
+      reqBodyTest('signin', 'email', false);
+      // if password empty
+      reqBodyTest('signin', 'password', false);
+
+      // if first name empty
+      reqBodyTest('signin', 'firstName', false);
+
+      // if last name empty
+      reqBodyTest('signin', 'lastName', true);
+
       it('should throw if no body provided', () => {
         return pactum.spec().post('/auth/signin').expectStatus(400);
       });
