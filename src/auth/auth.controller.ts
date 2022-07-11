@@ -9,6 +9,7 @@ export class AuthController {
    * CREATE SIGN UP AND SIGN IN ENDPOINTS*/
 
   // sign up endpoint
+  @HttpCode(HttpStatus.CREATED)
   @Post('signup')
   signup(@Body() dto: AuthDto) {
     return this.authService.signup(dto);
