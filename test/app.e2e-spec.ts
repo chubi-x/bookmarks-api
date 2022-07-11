@@ -37,14 +37,20 @@ describe('App e2e', () => {
       lastName: 'adejoh',
     };
     describe('Sign Up', () => {
+      it('should throw error when email empty', () => {
+        return pactum
+          .spec()
+          .post('/auth/signup')
+          .withBody({ password: dto.password })
+          .expectStatus(400);
+      });
       it('should sign up', () => {
         // create dto object to test sign up
         return pactum
           .spec()
           .post('/auth/signup')
           .withBody(dto)
-          .expectStatus(201)
-          .inspect();
+          .expectStatus(201);
       });
     });
     describe('Sign In', () => {
