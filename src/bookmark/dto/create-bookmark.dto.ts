@@ -1,4 +1,4 @@
-import { IsNumber, IsString, IsUrl } from 'class-validator';
+import { IsOptional, IsString, IsUrl } from 'class-validator';
 
 export class CreateBookmarkDto {
   @IsString()
@@ -6,8 +6,8 @@ export class CreateBookmarkDto {
 
   @IsUrl()
   url: string;
-  @IsNumber()
-  userId;
+
   @IsString()
+  @IsOptional()
   description?;
 }
