@@ -15,6 +15,7 @@ import { CreateBookmarkDto } from './dto';
 @Controller('bookmarks')
 export class BookmarkController {
   constructor(private bookmark: BookmarkService) {}
+
   @UseGuards(JwtGuard)
   @Post()
   createBookmark(
@@ -25,7 +26,9 @@ export class BookmarkController {
   }
 
   @Get()
-  getBookmarks(@GetUser('id') userId: number) {}
+  getBookmarks() {
+    return this.bookmark.getBookmarks();
+  }
   @Get()
   getBookmarkById(@GetUser('id') userId: number) {}
 
