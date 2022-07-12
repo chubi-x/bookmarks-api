@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -9,11 +10,20 @@ import {
 import { GetUser } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
 import { BookmarkService } from './bookmark.service';
+import { CreateBookmarkDto } from './dto';
 
 @Controller('bookmarks')
 export class BookmarkController {
   constructor(private bookmark: BookmarkService) {}
   @UseGuards(JwtGuard)
+  @Post()
+  createBookmark(
+    @GetUser('id') userId: number,
+    @Body() dto: CreateBookmarkDto,
+  ) {
+    return this.bookmark.createBookmark(userId, dto);
+  }
+
   @Get()
   getBookmarks(@GetUser('id') userId: number) {}
   @Get()
@@ -22,8 +32,6 @@ export class BookmarkController {
   @Patch()
   editBookmarkById(@GetUser('id') userId: number) {}
 
-  @Post()
-  createBookmark(@GetUser('id') userId: number) {}
-  @Delete(@GetUser('id') userId : number)
-  deleteBookmarkById() {}
+  @Delete()
+  deleteBookmarkById(@GetUser('id') userId: number) {}
 }
