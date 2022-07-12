@@ -19,7 +19,6 @@ export class UserService {
     return user;
   }
   async editPassword(userId: number, dto: EditUserPasswordDto) {
-    console.log(`new password: ${dto.password}`);
     const newPassword = await argon.hash(dto.password);
     const user = await this.prisma.user.update({
       where: {
