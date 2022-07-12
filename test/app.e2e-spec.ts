@@ -5,6 +5,7 @@ import { PrismaDbService } from '../src/prisma_db/prisma_db.service';
 import { AppModule } from '../src/app.module';
 import { SignupDto, LoginDto } from '../src/auth/dto';
 import { EditUserDto, EditUserPasswordDto } from '../src/user/dto';
+import { CreateBookmarkDto } from 'src/bookmark/dto';
 describe('App e2e', () => {
   // create app variable
   let app: INestApplication;
@@ -147,8 +148,7 @@ describe('App e2e', () => {
           .patch('/users/me/change_password')
           .withHeaders('Authorization', 'Bearer $S{userToken}')
           .withBody(editPasswordDto)
-          .expectStatus(200)
-          .inspect();
+          .expectStatus(200);
       });
       it('Should sign in after password change', () => {
         const newSignInDto: EditUserPasswordDto = {
@@ -161,17 +161,30 @@ describe('App e2e', () => {
             email: 'chubiX@gmail.com',
             password: newSignInDto.password,
           })
+          .stores('acessToken', 'access_token')
           .expectStatus(200);
       });
     });
-    describe('Bookmarks', () => {
-      it('Get Bookmarks', () => {});
-
-      it('Get Bookmark by Id', () => {});
-
-      it('Create Bookmark', () => {});
-      it('Edit Bookmark by Id', () => {});
-      it('Delete Bookmark by Id', () => {});
+  });
+  describe('Bookmarks', () => {
+    it('Create Bookmark', () => {
+      const dto: CreateBookmarkDto = {
+        title: 'test bookmark',
+        url: 'https://google.com',
+      };
+      return pactum
+        .spec()
+        .post('/bookmarks')
+        .withHeaders('Authorization', 'Bearer $S{acessToken}')
+        .withBody(dto)
+        .expectStatus(201)
+        .inspect();
     });
+    it('Get Bookmarks', () => {});
+
+    it('Get Bookmark by Id', () => {});
+
+    it('Edit Bookmark by Id', () => {});
+    it('Delete Bookmark by Id', () => {});
   });
 });
