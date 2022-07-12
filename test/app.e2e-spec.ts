@@ -177,10 +177,11 @@ describe('App e2e', () => {
         .post('/bookmarks')
         .withHeaders('Authorization', 'Bearer $S{acessToken}')
         .withBody(dto)
-        .expectStatus(201)
-        .inspect();
+        .expectStatus(201);
     });
-    it('Get Bookmarks', () => {});
+    it('Get Bookmarks', () => {
+      return pactum.spec().get('/bookmarks').expectStatus(200).inspect();
+    });
 
     it('Get Bookmark by Id', () => {});
 
