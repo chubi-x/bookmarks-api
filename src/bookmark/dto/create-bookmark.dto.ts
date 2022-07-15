@@ -11,5 +11,5 @@ export class CreateBookmarkDto {
 
   @IsString()
   @IsOptional()
-  description?;
+  description?: string;
 }
