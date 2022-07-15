@@ -25,8 +25,8 @@ export class BookmarkController {
   }
 
   @Get()
-  getBookmarks() {
-    return this.bookmark.getBookmarks();
+  getBookmarks(@GetUser('id') userId: number) {
+    return this.bookmark.getBookmarks(userId);
   }
   @Get()
   getBookmarkById(@GetUser('id') userId: number) {}

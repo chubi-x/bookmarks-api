@@ -1,26 +1,20 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { PrismaDbService } from '../../src/prisma_db/prisma_db.service';
+import { PrismaDbService } from '../prisma_db/prisma_db.service';
 import { CreateBookmarkDto } from './dto';
 
 @Injectable()
 export class BookmarkService {
   constructor(private prisma: PrismaDbService) {}
-  async getBookmarks() {
-    const bookmarks = await this.prisma.bookmark.findMany();
-    return [bookmarks];
-  }
-  getBookmarkById() {}
-
-  editBookmarkById() {}
-
+  // create bookmark
   async createBookmark(userId: number, dto: CreateBookmarkDto) {
     try {
       const bookmark = await this.prisma.bookmark.create({
         data: {
           userId: userId,
           title: dto.title,
-          link: dto.url,
+          link: dto.link,
           description: dto.description,
         },
       });
@@ -34,5 +28,27 @@ export class BookmarkService {
       throw err;
     }
   }
+  // get all bookmarks
+  getBookmarks(userId: number) {
+    // console.log(userId);
+    return this.prisma.bookmark.findMany({
+      where: {
+        userId,
+      },
+    });
+  }
+  // get bookmark by id
+  //   async getBookmarkById(userId: number, bookmarkId: number) {
+  //     const bookmark = await this.prisma.bookmark.findUnique({
+  //       where: {
+  //         id: bookmarkId,
+  //         userId: userId,
+  //       },
+  //     });
+  //     return bookmark;
+  //   }
+
+  editBookmarkById() {}
+
   deleteBookmarkById() {}
 }
