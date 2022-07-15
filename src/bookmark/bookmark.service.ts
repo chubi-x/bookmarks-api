@@ -38,15 +38,17 @@ export class BookmarkService {
     });
   }
   // get bookmark by id
-  //   async getBookmarkById(userId: number, bookmarkId: number) {
-  //     const bookmark = await this.prisma.bookmark.findUnique({
-  //       where: {
-  //         id: bookmarkId,
-  //         userId: userId,
-  //       },
-  //     });
-  //     return bookmark;
-  //   }
+  async getBookmarkById(userId: number, bookmarkId: number) {
+    const bookmark = await this.prisma.bookmark.findFirst({
+      where: {
+        id: bookmarkId,
+        userId,
+      },
+    });
+    return bookmark;
+  }
+
+  // edit bookmark by id
 
   editBookmarkById() {}
 

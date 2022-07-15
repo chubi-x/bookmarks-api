@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
+  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
@@ -14,24 +16,29 @@ import { CreateBookmarkDto } from './dto';
 @UseGuards(JwtGuard)
 @Controller('bookmarks')
 export class BookmarkController {
-  constructor(private bookmark: BookmarkService) {}
+  constructor(private bookmarkService: BookmarkService) {}
 
-  @Post()
+  @Post('new')
   createBookmark(
     @GetUser('id') userId: number,
     @Body() dto: CreateBookmarkDto,
   ) {
-    return this.bookmark.createBookmark(userId, dto);
+    return this.bookmarkService.createBookmark(userId, dto);
   }
 
   @Get()
   getBookmarks(@GetUser('id') userId: number) {
-    return this.bookmark.getBookmarks(userId);
+    return this.bookmarkService.getBookmarks(userId);
   }
-  @Get()
-  getBookmarkById(@GetUser('id') userId: number) {}
+  @Get(':id')
+  getBookmarkById(
+    @GetUser('id') userId: number,
+    @Param('id', ParseIntPipe) bookmarkId: number,
+  ) {
+    return this.bookmarkService.getBookmarkById(userId, bookmarkId);
+  }
 
-  @Patch()
+  @Patch(':id')
   editBookmarkById(@GetUser('id') userId: number) {}
 
   @Delete()

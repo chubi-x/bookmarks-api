@@ -176,6 +176,7 @@ describe('App e2e', () => {
           .spec()
           .post('/bookmarks/new')
           .withHeaders('Authorization', 'Bearer $S{userToken}')
+          .stores('bookmarkId', 'id')
           .withBody(dto)
           .expectStatus(201);
       });
@@ -186,11 +187,18 @@ describe('App e2e', () => {
           .spec()
           .get('/bookmarks')
           .withHeaders('Authorization', 'Bearer $S{userToken}')
+          .expectStatus(200);
+      });
+      it('Should get Bookmark by Id', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks/{id}')
+          .withPathParams('id', '$S{bookmarkId}')
+          .withHeaders('Authorization', 'Bearer $S{userToken}')
           .expectStatus(200)
           .inspect();
       });
     });
-    it('Get Bookmark by Id', () => {});
 
     it('Edit Bookmark by Id', () => {});
     it('Delete Bookmark by Id', () => {});
