@@ -3,6 +3,7 @@ import { User } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { PrismaDbService } from '../prisma_db/prisma_db.service';
 import { CreateBookmarkDto } from './dto';
+import { EditBookmarkDto } from './dto/edit-bookmark.dto';
 
 @Injectable()
 export class BookmarkService {
@@ -50,7 +51,30 @@ export class BookmarkService {
 
   // edit bookmark by id
 
-  editBookmarkById() {}
+  async editBookmarkById(
+    userId: number,
+    bookmarkId: number,
+    editBookmarkDto: EditBookmarkDto,
+  ) {
+    //get the bookmark by id
+    const bookmark = await this.prisma.bookmark.findUnique({
+      where: { id: bookmarkId },
+    });
+    // check if the user owns the bookmark
+
+    if (!bookmark || bookmark.userId !== userId) {
+      throw new ForbiddenException('You dont have access to this resource');
+    }
+    //  edit the bookmark
+    return await this.prisma.bookmark.update({
+      where: {
+        id: bookmarkId,
+      },
+      data: {
+        ...editBookmarkDto,
+      },
+    });
+  }
 
   deleteBookmarkById() {}
 }

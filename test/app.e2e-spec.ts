@@ -6,6 +6,7 @@ import { AppModule } from '../src/app.module';
 import { SignupDto, LoginDto } from '../src/auth/dto';
 import { EditUserDto, EditUserPasswordDto } from '../src/user/dto';
 import { CreateBookmarkDto } from 'src/bookmark/dto';
+import { EditBookmarkDto } from '../src/bookmark/dto/edit-bookmark.dto';
 describe('App e2e', () => {
   // create app variable
   let app: INestApplication;
@@ -182,6 +183,11 @@ describe('App e2e', () => {
       });
     });
     describe('Get bookmarks', () => {
+      const editBookmarkDto: EditBookmarkDto = {
+        title: 'new title',
+        link: 'https://bing.com',
+        description: 'this is a new bookmark',
+      };
       it('should get Bookmarks', () => {
         return pactum
           .spec()
@@ -196,11 +202,20 @@ describe('App e2e', () => {
           .withPathParams('id', '$S{bookmarkId}')
           .withHeaders('Authorization', 'Bearer $S{userToken}')
           .expectStatus(200)
+          .expectBodyContains('$S{bookmarkId}');
+      });
+      it('Should edit Bookmark by Id', () => {
+        return pactum
+          .spec()
+          .patch('/bookmarks/{id}')
+          .withPathParams('id', '$S{bookmarkId}')
+          .withHeaders('Authorization', 'Bearer $S{userToken}')
+          .withBody(editBookmarkDto)
+          .expectStatus(200)
           .inspect();
       });
     });
 
-    it('Edit Bookmark by Id', () => {});
     it('Delete Bookmark by Id', () => {});
   });
 });
