@@ -161,28 +161,35 @@ describe('App e2e', () => {
             email: 'chubiX@gmail.com',
             password: newSignInDto.password,
           })
-          .stores('acessToken', 'access_token')
           .expectStatus(200);
       });
     });
   });
   describe('Bookmarks', () => {
-    it('Create Bookmark', () => {
-      const dto: CreateBookmarkDto = {
-        title: 'test bookmark',
-        url: 'https://google.com',
-      };
-      return pactum
-        .spec()
-        .post('/bookmarks')
-        .withHeaders('Authorization', 'Bearer $S{acessToken}')
-        .withBody(dto)
-        .expectStatus(201);
+    describe('Create bookmarks', () => {
+      it('should create bookmark', () => {
+        const dto: CreateBookmarkDto = {
+          title: 'test bookmark',
+          link: 'https://google.com',
+        };
+        return pactum
+          .spec()
+          .post('/bookmarks/new')
+          .withHeaders('Authorization', 'Bearer $S{userToken}')
+          .withBody(dto)
+          .expectStatus(201);
+      });
     });
-    it('Get Bookmarks', () => {
-      return pactum.spec().get('/bookmarks').expectStatus(200).inspect();
+    describe('Get bookmarks', () => {
+      it('should get Bookmarks', () => {
+        return pactum
+          .spec()
+          .get('/bookmarks')
+          .withHeaders('Authorization', 'Bearer $S{userToken}')
+          .expectStatus(200)
+          .inspect();
+      });
     });
-
     it('Get Bookmark by Id', () => {});
 
     it('Edit Bookmark by Id', () => {});
