@@ -11,12 +11,11 @@ import { GetUser } from '../../src/auth/decorator';
 import { JwtGuard } from '../../src/auth/guard';
 import { BookmarkService } from './bookmark.service';
 import { CreateBookmarkDto } from './dto';
-
+@UseGuards(JwtGuard)
 @Controller('bookmarks')
 export class BookmarkController {
   constructor(private bookmark: BookmarkService) {}
 
-  @UseGuards(JwtGuard)
   @Post()
   createBookmark(
     @GetUser('id') userId: number,
