@@ -1,73 +1,23 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Bookmarks API 📒
+## Tools ⚙️
+- Built on Express and Node with NestJs 🦁
+- Data stored on POSTGRES DB 🐘 running on Docker 🐳
+- ORM schema and db manipulation with Prisma 🔼
+- API testing with Postman👨🏾‍🚀, Pactum, and Jest 🃏
+- Authentication with JWT and Passport 🛂 
+- Input validation and transformation with Class (transformer + validator) libraries ✅
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+##Functionality⚒️
+- sign up and login as a user
+- create, edit, retrieve, and delete bookmarks
+- protected routing such that only authenticated and authorized users can manipulate bookmarks
+- input validation using DTOs to ensure only expected data is accepted to the server
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Motivations and Thoughts 💪🏾💭
+I built this API to give myself a little refresher in backend dev cause its been ages! 
+Nest made my life so easy with its robust library of tools. I liked how it helped me modularize my code with its concept of modules, controllers, and services. It helps you keep your code clean by relegating business logic to the service and routing to the controller, using dependency injection to make services available to other modules. I also loved its decorator feature that helps you easily define and handle http routes and (Req,Res) parameters. This feature reminded me a lot of Java 😄. 
+Nest's Validation Pipes made input validation a breeze, providing security and an intuitive way to ensure I was only handling data I was expecting (goodbye Injection attacks💉). No more racking my brain figuring out how to make sure a user could only send an Int as their phone number lol.
 
-## Description
+However, out of all these amazing features, Nests's custom decorator was the one that blew me away. Its a powerful feature that lets you create YOUR OWN DECORATORS, giving you access to the Req and Res objects and even letting you parse data from them! All I had to do was use its Execution Context interface to retrieve the request and I could get access to my user's request data from any module at all! How cool is that?!
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+Nest's awesome features let me structure my code, making it super easy to find and squash bugs 🪳 and giving me freedom to do what we all love to do, build stuff. It abstracts away all of Express's excesses (lol rhyme) and makes it a joy to write server side logic. I'll definitely be using this framework more in the future!
